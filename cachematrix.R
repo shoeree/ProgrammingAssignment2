@@ -44,7 +44,7 @@ cacheSolve <- function(x, ...) {
   
   # get the cached data if it exists
   if (!is.null(inverse)) {
-    message("getting cached data")
+    message("Getting cached data.")
     return (inverse)
   }
   
@@ -57,4 +57,29 @@ cacheSolve <- function(x, ...) {
   
   # ...and finally return the inverse
   inverse
+}
+
+
+## Test the code.
+test <- function() {
+  mat <- matrix(rnorm(25), 5, 5)
+  
+  # generate the expected result
+  matInv <- solve(mat)
+  
+  # generate the matrix object
+  cacheMat <- makeCacheMatrix(mat)
+  
+  # test for equality on non-cached data
+  non_cached_equal = all(matInv == cacheSolve(cacheMat))
+  stopifnot(non_cached_equal)
+  message("non_cached_equal OK!")
+  
+  # test for equality on cached data
+  cached_equal = all(matInv == cacheSolve(cacheMat))
+  stopifnot(cached_equal)
+  message("cached_equal OK!")
+  
+  # print success message
+  message("All tests OK!")
 }
